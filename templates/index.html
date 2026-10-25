@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0e17">
+    <title>IndexLab — Benchmark Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='chart.umd.min.js') }}"></script>
+</head>
+<body>
+<div class="app-shell">
+
+    <aside class="sidebar">
+        <a class="brand" href="#" aria-label="IndexLab home">
+            <div class="brand-mark"><span></span><span></span><span></span></div>
+            <div class="brand-copy">index<span>lab</span><small>BENCHMARK STUDIO</small></div>
+        </a>
+
+        <div class="side-label">WORKSPACE</div>
+        <nav class="navigation">
+            <button class="nav-item active" data-page="overview">
+                <span class="nav-icon">◫</span> Overview
+            </button>
+            <button class="nav-item" data-page="performance">
+                <span class="nav-icon">⌁</span> Performance
+            </button>
+            <button class="nav-item" data-page="results">
+                <span class="nav-icon">▤</span> Results explorer
+            </button>
+            <button class="nav-item" data-page="methodology">
+                <span class="nav-icon">⌘</span> Methodology
+            </button>
+        </nav>
+
+        <div class="side-label side-label-lower">EXPERIMENT</div>
+        <div class="experiment-card">
+            <div class="live-dot"></div>
+            <div><strong>Indexing benchmark</strong><small>Local experiment</small></div>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="avatar">IL</div>
+            <div class="profile-copy"><strong>Research workspace</strong><small>Python · SQLite · AVL</small></div>
+            <span class="profile-dots">···</span>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb-page">Overview</strong></div>
+            <div class="topbar-right">
+                <div class="system-status"><span></span> LOCAL ENVIRONMENT</div>
+                <button id="theme-toggle" class="icon-button" title="Toggle appearance" aria-label="Toggle appearance">◐</button>
+            </div>
+        </header>
+
+        <div class="page-container">
+            <section class="hero">
+                <div class="hero-copy">
+                    <div class="eyebrow"><span class="eyebrow-line"></span> DATA STRUCTURES / RESEARCH</div>
+                    <h1>Relational Indexing<br><span>vs Memory Trees.</span></h1>
+                    <p>A closer look at search performance. Explore how in-memory AVL Trees compare with SQLite indexed searches as datasets grow.</p>
+                    <div class="hero-actions">
+                        <button class="primary-button" id="run-benchmark"><span>▶</span> Run benchmark <span class="button-arrow">↗</span></button>
+                        <button class="secondary-button" id="view-results">Explore results <span>→</span></button>
+                    </div>
+                </div>
+                <div class="hero-art" aria-hidden="true">
+                    <div class="orbit orbit-one"></div>
+                    <div class="orbit orbit-two"></div>
+                    <div class="orbit orbit-three"></div>
+                    <div class="core-glow"></div>
+                    <div class="core-node">IDX</div>
+                    <div class="art-node node-one">AVL</div>
+                    <div class="art-node node-two">SQL</div>
+                    <div class="art-node node-three">O(log n)</div>
+                    <div class="art-line line-one"></div>
+                    <div class="art-line line-two"></div>
+                </div>
+                <div class="hero-index">EXPERIMENT 001 <span>•</span> SCALABILITY STUDY</div>
+            </section>
+
+            <section class="metric-grid">
+                <article class="metric-card">
+                    <div class="metric-top"><span>DATASET CONFIGURATIONS</span><span class="metric-icon purple">▦</span></div>
+                    <div class="metric-value" id="metric-datasets">05</div>
+                    <div class="metric-bottom"><span class="metric-neutral">1K — 100K</span><span>records tested</span></div>
+                    <div class="metric-accent accent-purple"></div>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-top"><span>AVL SEARCH TIME</span><span class="metric-icon blue">⌁</span></div>
+                    <div class="metric-value" id="metric-avl">— <small>µs</small></div>
+                    <div class="metric-bottom"><span class="metric-neutral">IN-MEMORY</span><span>average per search</span></div>
+                    <div class="metric-accent accent-blue"></div>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-top"><span>SQLITE SEARCH TIME</span><span class="metric-icon green">◈</span></div>
+                    <div class="metric-value" id="metric-sqlite">— <small>µs</small></div>
+                    <div class="metric-bottom"><span class="metric-neutral">INDEXED SEARCH</span><span>average per search</span></div>
+                    <div class="metric-accent accent-green"></div>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-top"><span>VALIDATION STATUS</span><span class="metric-icon amber">✓</span></div>
+                    <div class="metric-value status-value" id="metric-status">READY</div>
+                    <div class="metric-bottom"><span class="metric-neutral">LOCAL TEST</span><span id="validation-detail">Awaiting run</span></div>
+                    <div class="metric-accent accent-amber"></div>
+                </article>
+            </section>
+
+            <section class="content-section chart-section" id="overview-chart">
+                <div class="section-header">
+                    <div><div class="section-kicker">01 / PERFORMANCE</div><h2>Search performance</h2><p>Average search duration across increasing dataset sizes.</p></div>
+                    <div class="chart-controls"><span class="legend-dot avl-dot"></span><span class="legend-label">AVL Tree</span><span class="legend-dot sql-dot"></span><span class="legend-label">SQLite</span></div>
+                </div>
+                <div class="chart-toolbar">
+                    <div class="chart-tabs"><button class="chart-tab active" data-scale="linear">Linear scale</button><button class="chart-tab" data-scale="logarithmic">Log scale</button></div>
+                    <span class="chart-unit">TIME / MICROSECONDS</span>
+                </div>
+                <div class="chart-container"><canvas id="performance-chart"></canvas><div class="chart-empty" id="chart-empty"><div class="empty-symbol">⌁</div><strong>Your results will appear here</strong><span>Run the benchmark to populate the performance chart.</span></div></div>
+                <div class="chart-footer"><span><span class="footer-dot"></span> Measured benchmark results</span><span id="chart-caption">No run recorded yet</span></div>
+            </section>
+
+            <section class="lower-grid">
+                <article class="content-section results-preview">
+                    <div class="section-header compact-header"><div><div class="section-kicker">02 / DATA</div><h2>Latest results</h2></div><button class="text-link" id="all-results">View all →</button></div>
+                    <div class="table-wrap">
+                        <table><thead><tr><th>RECORDS</th><th>AVL TREE</th><th>SQLITE</th><th>STATUS</th></tr></thead><tbody id="preview-table"><tr><td colspan="4" class="empty-table">Run a benchmark to see your results.</td></tr></tbody></table>
+                    </div>
+                </article>
+                <article class="content-section insight-card">
+                    <div class="section-kicker">03 / THE EXPERIMENT</div>
+                    <h2>Two structures.<br>One question.</h2>
+                    <p>How does search time change as the number of records increases?</p>
+                    <div class="structure-row"><div class="structure-icon avl-icon">A</div><div><strong>AVL Tree</strong><small>Self-balancing binary search tree</small></div><span class="complexity">O(log n)</span></div>
+                    <div class="structure-row"><div class="structure-icon sql-icon">S</div><div><strong>SQLite</strong><small>Relational database with indexed search</small></div><span class="complexity">Index-dependent</span></div>
+                    <div class="insight-note"><span>i</span><p>Build and insertion time is excluded from the search timing in the current benchmark functions.</p></div>
+                </article>
+            </section>
+
+            <section class="content-section full-results hidden" id="results-page">
+                <div class="section-header"><div><div class="section-kicker">RESULTS EXPLORER</div><h2>Benchmark measurements</h2><p>Detailed results from the latest execution.</p></div><button class="secondary-button" id="export-csv">↓ Export CSV</button></div>
+                <div class="table-wrap"><table><thead><tr><th>DATASET SIZE</th><th>AVL TIME (µs)</th><th>SQLITE TIME (µs)</th><th>AVL FOUND</th><th>SQLITE FOUND</th><th>VALIDATION</th></tr></thead><tbody id="full-table"><tr><td colspan="6" class="empty-table">No results available yet.</td></tr></tbody></table></div>
+            </section>
+
+            <section class="content-section full-results hidden" id="methodology-page">
+                <div class="section-kicker">RESEARCH NOTES</div><h2>Methodology & limitations</h2>
+                <div class="method-grid">
+                    <div class="method-card"><span>01</span><h3>Dataset generation</h3><p>The existing Python generator creates datasets at 1,000, 5,000, 10,000, 50,000 and 100,000 records.</p></div>
+                    <div class="method-card"><span>02</span><h3>AVL Tree search</h3><p>The AVL tree is built before the timer starts. The benchmark then times searches for 100 existing keys.</p></div>
+                    <div class="method-card"><span>03</span><h3>SQLite indexed search</h3><p>The table and data are prepared before the timer starts. The same 100 existing keys are searched.</p></div>
+                    <div class="method-card"><span>04</span><h3>Measurement</h3><p>Python's high-resolution performance timer measures the search loop. Total time is divided by 100.</p></div>
+                    <div class="method-card"><span>05</span><h3>Validation</h3><p>The original benchmark returns the final search result from each implementation, not a separate result for every key.</p></div>
+                    <div class="method-card"><span>06</span><h3>Limitations</h3><p>Results depend on the machine, runtime, database configuration and timing noise. Repeated trials improve confidence.</p></div>
+                </div>
+            </section>
+
+            <footer class="page-footer"><div class="footer-brand"><span class="footer-brand-mark">I</span> INDEXLAB <span>BENCHMARK STUDIO</span></div><span>ACADEMIC RESEARCH PROTOTYPE</span><span>PYTHON · SQLITE · AVL TREE</span></footer>
+        </div>
+    </main>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
