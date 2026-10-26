@@ -1,7 +1,16 @@
+# Python bytecode and caches
 __pycache__/
 *.py[cod]
+
+# Virtual environments and local secrets
 .venv/
 venv/
 .env
+
+# Local SQLite databases and generated benchmark output
+*.db
+performance_graph.png
+
+# OS/editor noise
 .DS_Store
 Thumbs.db
